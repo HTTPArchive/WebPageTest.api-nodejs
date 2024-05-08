@@ -140,6 +140,7 @@ _The default WPT server can also be specified via environment variable `WEBPAGET
 - **-b, --block** _\<urls\>_: space-delimited list of urls to block (substring match)
 - **-Z, --spof** _\<domains\>_: space-delimited list of domains to simulate failure by re-routing to blackhole.webpagetest.org to silently drop all requests
 - **-c, --custom** _\<script\>_: execute arbitrary javascript at the end of a test to collect custom metrics
+- **-w, --wappalyzerpr** _\<number\>_: set the wappalyzer fork PR number to use for technology detection
 - **-a, --authtype** _\<type\>_: type of authentication: 0 = Basic, 1 = SNS [0]
 - **-n, --notify** _\<e-mail\>_: e-mail address to notify with the test results
 - **-B, --pingback** _\<url\>_: URL to ping when the test is complete (the test ID will be passed as an "id" parameter)
@@ -317,7 +318,7 @@ webpagetest status 121025_PT_N8K -k YOURAPIKEY
 #### 4. Get test results
 
 ```bash
-webpagetest results 121025_PT_N8K -k YOURAPIKEY 
+webpagetest results 121025_PT_N8K -k YOURAPIKEY
 ```
 
 ```javascript
@@ -519,6 +520,7 @@ wpt.runTest(script, (err, data) => {
 - **block**: _String_, space-delimited list of urls to block (substring match)
 - **spof**: _String_, space-delimited list of domains to simulate failure by re-routing to blackhole.webpagetest.org to silently drop all requests
 - **customMetrics**: _String_, execute arbitrary JavaScript at the end of a test to collect custom metrics
+- **wappalyzerpr** _Integer_, set the wappalyzer fork PR number to use for technology detection
 - **authenticationType**: _Number_, type of authentication: 0 = Basic, 1 = SNS [0]
 - **notifyEmail**: _String_, e-mail address to notify with the test results
 - **pingback**: _String_, URL to ping when the test is complete (the test ID will be passed as an "id" parameter)
