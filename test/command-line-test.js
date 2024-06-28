@@ -102,7 +102,7 @@ describe('WebPageTest Command Line', function() {
         '--first ' +
         '--timeline ' +
         '--netlog ' +
-        '--wappalyzerpr 1 ' +
+        '--wappalyzerPR 1 ' +
         '--full'
       ), function(err, data) {
       if (err) return done(err);
