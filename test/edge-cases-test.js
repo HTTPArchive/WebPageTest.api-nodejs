@@ -85,6 +85,30 @@ describe('Edge Cases of', function() {
       });
     });
 
+    it('gets a test with long custom metrics script then returns API url and payload with custom metrics data', function (done) {
+      wpt.runTest('http://foobar.com', {
+        dryRun: true,
+        mobile: 1,
+        http_method: 'POST',
+        custom: '[example]\n\\\\' + 'X'.repeat(10000) + '\nreturn 1;'
+      }, function (err, data) {
+        if (err) return done(err);
+        assert.equal(data.url, wptServer + 'runtest.php');
+        assert.equal(data.form.length, 10089);
+        done();
+      });
+    });
+
+    it('gets a test with custom wappalyzer rules then returns API url', function (done) {
+      wpt.runTest('http://foobar.com', {
+        dryRun: true,
+        wappalyzerpr: 1,
+      }, function (err, data) {
+        if (err) return done(err);
+        assert.equal(data.url, wptServer + 'runtest.php?url=http%3A%2F%2Ffoobar.com&wappalyzerPR=1&f=json');
+        done();
+      });
+    });
   });
 
   describe('WebPageTest localhost helper', function() {

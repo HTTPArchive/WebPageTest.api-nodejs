@@ -102,11 +102,12 @@ describe('WebPageTest Command Line', function() {
         '--first ' +
         '--timeline ' +
         '--netlog ' +
+        '--wappalyzerpr 1 ' +
         '--full'
       ), function(err, data) {
       if (err) return done(err);
       data = JSON.parse(data);
-      assert.equal(data.url, wptServer + 'runtest.php?url=http%3A%2F%2Ftwitter.com%2Fmarcelduran&location=Local_Firefox_Chrome%3AChrome&runs=3&fvonly=1&label=test%20123&timeline=1&netlog=1&pngss=1&f=json');
+      assert.equal(data.url, wptServer + 'runtest.php?url=http%3A%2F%2Ftwitter.com%2Fmarcelduran&location=Local_Firefox_Chrome%3AChrome&runs=3&fvonly=1&label=test%20123&timeline=1&netlog=1&wappalyzerPR=1&pngss=1&f=json');
       done();
     });
   });
@@ -348,6 +349,18 @@ describe('WebPageTest Command Line', function() {
       assert.equal(data[0].url, wptServer + 'testStatus.php?test=120816_V2_2');
       assert.equal(data[1].url, wptServer + 'jsonResult.php?test=120816_V2_2');
       assert.equal(data[2].url, wptServer + 'getgzip.php?test=120816_V2_2&file=1_screen.jpg');
+      done();
+    });
+  });
+
+  it('gets a test with long custom metrics script then returns API url and payload with custom metrics data', function (done) {
+    let script = '"[example]\n\\\\' + 'X'.repeat(6000) + '\nreturn 1;"'
+
+    exec(mock('test http://foobar.com --http_method POST --custom ' + script), function (err, data) {
+      if (err) return done(err);
+      data = JSON.parse(data);
+      assert.equal(data.url, wptServer + 'runtest.php');
+      assert.equal(data.form.length, 6077);
       done();
     });
   });

@@ -60,7 +60,7 @@ Options:
                                       switches (Chrome only)
       --lighthouse                    perform lighthouse test (Chrome only,
                                       Linux agent only)
-  -thc, --throttleCPU <number>        custom cpu throttling    
+  -thc, --throttleCPU <number>        custom cpu throttling
   -g, --login <username>              username for authenticating tests (http
                                       authentication)
   -w, --password <password>           password for authenticating tests (http
@@ -78,6 +78,8 @@ Options:
                                       drop all requests
   -c, --custom <script>               execute arbitrary JavaScript at the end
                                       of a test to collect custom metrics
+  -wpr, --wappalyzerpr <number>         set the wappalyzerPR fork PR number to
+                                      use for technology detection
   -a, --authtype <type>               type of authentication: 0 = Basic, 1 =
                                       SNS [0]
   -n, --notify <e-mail>               e-mail address to notify with the test
@@ -88,7 +90,7 @@ Options:
   -D, --bwdown <bandwidth>            download bandwidth in Kbps (used when
                                       specifying a custom connectivity profile)
   -U, --bwup <bandwidth>              upload bandwidth in Kbps (used when
-                                      specifying a custom connectivity profile)               
+                                      specifying a custom connectivity profile)
   -bw, --browserwidth <pixels>        Browser window width (in display pixels)
   -bh, --browserheight <pixels>       Browser window height (in display pixels)
   -vh, --viewportheight <pixels>      Viewport Height in css pixels
