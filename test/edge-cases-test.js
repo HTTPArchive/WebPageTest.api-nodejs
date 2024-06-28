@@ -102,7 +102,7 @@ describe('Edge Cases of', function() {
     it('gets a test with custom wappalyzer rules then returns API url', function (done) {
       wpt.runTest('http://foobar.com', {
         dryRun: true,
-        wappalyzerpr: 1,
+        wappalyzerPR: 1,
       }, function (err, data) {
         if (err) return done(err);
         assert.equal(data.url, wptServer + 'runtest.php?url=http%3A%2F%2Ffoobar.com&wappalyzerPR=1&f=json');
