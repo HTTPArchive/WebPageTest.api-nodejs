@@ -3,7 +3,7 @@
 
 # WebPageTest API Wrapper for NodeJS
 
-[![Build Status](https://travis-ci.com/WebPageTest/webpagetest-api.svg?branch=master)](https://travis-ci.com/WebPageTest/webpagetest-api)
+<!-- [![Build Status](https://travis-ci.com/WebPageTest/webpagetest-api.svg?branch=master)](https://travis-ci.com/WebPageTest/webpagetest-api) -->
 [![NPM Version](https://img.shields.io/npm/v/webpagetest.svg?style=flat)](https://www.npmjs.org/package/webpagetest)
 [![NPM Downloads](https://img.shields.io/npm/dm/webpagetest.svg?style=flat)](https://www.npmjs.org/package/webpagetest)
 
@@ -22,7 +22,7 @@ npm install webpagetest -g
 ### Command line
 
 ```bash
-webpagetest test https://docs.webpagetest.org/api/integrations/
+webpagetest test https://docs.webpagetest.org/api/integrations/ -k YOURAPIKEY
 ```
 
 ### Docker
@@ -98,6 +98,7 @@ webpagetest --help
 - **-s, --server** _\<server\>_: the WPT server URL [https://www.webpagetest.org]
 - **-d, --dryrun**: just return the RESTful API URL
 - **-o, --out** _\<file\>_: place the output into \<file\>. Defaults to stdout
+- **--http_method** _\<method\>_: the HTTP method to use (GET, POST) [GET]
 
 _The default WPT server can also be specified via environment variable `WEBPAGETEST_SERVER`_
 
@@ -139,6 +140,7 @@ _The default WPT server can also be specified via environment variable `WEBPAGET
 - **-b, --block** _\<urls\>_: space-delimited list of urls to block (substring match)
 - **-Z, --spof** _\<domains\>_: space-delimited list of domains to simulate failure by re-routing to blackhole.webpagetest.org to silently drop all requests
 - **-c, --custom** _\<script\>_: execute arbitrary javascript at the end of a test to collect custom metrics
+- **-w, --wappalyzerpr** _\<number\>_: set the wappalyzer fork PR number to use for technology detection
 - **-a, --authtype** _\<type\>_: type of authentication: 0 = Basic, 1 = SNS [0]
 - **-n, --notify** _\<e-mail\>_: e-mail address to notify with the test results
 - **-B, --pingback** _\<url\>_: URL to ping when the test is complete (the test ID will be passed as an "id" parameter)
@@ -239,10 +241,10 @@ _The default WPT server can also be specified via environment variable `WEBPAGET
 
 ### Examples
 
-#### 1. Get all available locations
+#### 1. Get API available locations
 
 ```bash
-$ webpagetest locations
+$ webpagetest locations -k YOURAPIKEY
 ```
 
 ```javascript
@@ -270,41 +272,10 @@ $ webpagetest locations
 }
 ```
 
-#### 2. Get API available locations
+#### 2. Run test on https://docs.webpagetest.org/api/integrations/ from San Jose on IE9
 
 ```bash
-webpagetest locations --key 1F2A3K4E5
-```
-
-```javascript
-{
-  "response": {
-    "statusCode": 200, "statusText": "Ok",
-    "data": {
-      "location": [
-        ...
-        {
-          "id": "SanJose_IE9",
-          "Label": "San Jose, CA USA (IE 9,Chrome,Firefox)",
-          "location": "SanJose_IE9",
-          "Browser": "IE 9",
-          "PendingTests": {
-            "p1": 0, "p2": 0, "p3": 0, "p4": 0, "p5": 2, "p6": 2, "p7": 0,
-            "p8": 0, "p9": 0, "Total": 7, "HighPriority": 2, "LowPriority": 4,
-            "Testing": 1, "Idle": 0
-          }
-        },
-        ...
-      ]
-    }
-  }
-}
-```
-
-#### 3. Run test on https://docs.webpagetest.org/api/integrations/ from San Jose on IE9
-
-```bash
-webpagetest test https://docs.webpagetest.org/api/integrations/ --key 1F2A3K4E5 --location SanJose_IE9
+webpagetest test https://docs.webpagetest.org/api/integrations/ -k YOURAPIKEY --location SanJose_IE9
 ```
 
 ```javascript
@@ -323,10 +294,10 @@ webpagetest test https://docs.webpagetest.org/api/integrations/ --key 1F2A3K4E5 
 }
 ```
 
-#### 4. Check current test status
+#### 3. Check current test status
 
 ```bash
-webpagetest status 121025_PT_N8K
+webpagetest status 121025_PT_N8K -k YOURAPIKEY
 ```
 
 ```javascript
@@ -344,10 +315,10 @@ webpagetest status 121025_PT_N8K
 }
 ```
 
-#### 5. Get test results
+#### 4. Get test results
 
 ```bash
-webpagetest results 121025_PT_N8K
+webpagetest results 121025_PT_N8K -k YOURAPIKEY
 ```
 
 ```javascript
@@ -379,23 +350,12 @@ webpagetest results 121025_PT_N8K
 }
 ```
 
-#### 6. Get test waterfall thumbnail from repeat view as data URI
+
+
+#### 5. Get remaining tests count for the account
 
 ```bash
-webpagetest waterfall 121025_PT_N8K --thumbnail --cached --uri
-```
-
-```javascript
-{
-  "type": "image/png",
-  "data": "iVBORw0KGgoAAAANSUhEUgA...RK5CYII="
-}
-```
-
-#### 7. Get remaining tests count for the account
-
-```bash
-webpagetest testBalance --key 1F2A3K4E5
+webpagetest testBalance -k YOURAPIKEY
 ```
 
 ```javascript
@@ -522,6 +482,7 @@ wpt.runTest(script, (err, data) => {
 
 - **dryRun**: _Boolean_, if `true`, method does not make an actual request to the API Server but rather returns an object with `url` which contains the actual URL to make the GET request to WebPageTest API Server
 - **server**: _String_, if specified, overrides the WebPageTest server informed in the constructor only for that method call
+- **http_method**: _String_, if specified, overrides the HTTP method in the constructor only for that method call (GET, POST) [GET]
 
 #### Test (works with `runTest` and `runTestAndWait`)
 
@@ -559,6 +520,7 @@ wpt.runTest(script, (err, data) => {
 - **block**: _String_, space-delimited list of urls to block (substring match)
 - **spof**: _String_, space-delimited list of domains to simulate failure by re-routing to blackhole.webpagetest.org to silently drop all requests
 - **customMetrics**: _String_, execute arbitrary JavaScript at the end of a test to collect custom metrics
+- **wappalyzerpr** _Integer_, set the wappalyzer fork PR number to use for technology detection
 - **authenticationType**: _Number_, type of authentication: 0 = Basic, 1 = SNS [0]
 - **notifyEmail**: _String_, e-mail address to notify with the test results
 - **pingback**: _String_, URL to ping when the test is complete (the test ID will be passed as an "id" parameter)
